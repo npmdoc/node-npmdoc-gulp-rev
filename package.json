@@ -1,17 +1,40 @@
 {
-    "buildNpmdoc":"gulp-rev",
+    "author": "kai zhu <kaizhu256@gmail.com>",
+    "buildNpmdoc": "gulp-rev",
+    "description": "api documentation for [gulp-rev (v7.1.2)](https://github.com/sindresorhus/gulp-rev#readme) [![travis-ci.org build-status](https://api.travis-ci.org/npmdoc/node-npmdoc-gulp-rev.svg)](https://travis-ci.org/npmdoc/node-npmdoc-gulp-rev)",
     "devDependencies": {
-        "gulp-rev": "*",
         "electron-lite": "kaizhu256/node-electron-lite#alpha",
+        "gulp-rev": "*",
         "utility2": "kaizhu256/node-utility2#alpha"
     },
-    "name":"npmdoc-gulp-rev",
+    "engines": {
+        "node": ">=4.0"
+    },
+    "homepage": "https://github.com/npmdoc/node-npmdoc-gulp-rev",
+    "keywords": [
+        "documentation",
+        "gulp-rev"
+    ],
+    "license": "MIT",
+    "main": "lib.npmdoc_gulp_rev.js",
+    "name": "npmdoc-gulp-rev",
+    "nameAlias": "npmdoc_gulp_rev",
+    "nameOriginal": "npmdoc-gulp-rev",
+    "os": [
+        "darwin",
+        "linux"
+    ],
     "repository": {
         "type": "git",
         "url": "https://github.com/npmdoc/node-npmdoc-gulp-rev.git"
     },
     "scripts": {
-        "build-ci": "utility2 shReadmeTest build_ci.sh"
+        "build-ci": "utility2 shReadmeTest build_ci.sh",
+        "env": "env",
+        "heroku-postbuild": "(set -e; npm install \"kaizhu256/node-utility2#alpha\"; utility2 shDeployHeroku)",
+        "postinstall": "if [ -f npm_scripts.sh ]; then ./npm_scripts.sh postinstall; fi",
+        "start": "(set -e; export PORT=${PORT:-8080}; utility2 start test.js)",
+        "test": "(set -e; export PORT=$(utility2 shServerPortRandom); utility2 test test.js)"
     },
-    "version": "0.0.1"
+    "version": "0.0.2"
 }
