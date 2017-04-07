@@ -1,11 +1,13 @@
-# api documentation for  [gulp-rev (v7.1.2)](https://github.com/sindresorhus/gulp-rev#readme)  [![travis-ci.org build-status](https://api.travis-ci.org/npmdoc/node-npmdoc-gulp-rev.svg)](https://travis-ci.org/npmdoc/node-npmdoc-gulp-rev)
+# api documentation for  [gulp-rev (v7.1.2)](https://github.com/sindresorhus/gulp-rev#readme)  [![npm package](https://img.shields.io/npm/v/npmdoc-gulp-rev.svg?style=flat-square)](https://www.npmjs.org/package/npmdoc-gulp-rev) [![travis-ci.org build-status](https://api.travis-ci.org/npmdoc/node-npmdoc-gulp-rev.svg)](https://travis-ci.org/npmdoc/node-npmdoc-gulp-rev)
 #### Static asset revisioning by appending content hash to filenames: unicorn.css => unicorn-d41d8cd98f.css
 
 [![NPM](https://nodei.co/npm/gulp-rev.png?downloads=true)](https://www.npmjs.com/package/gulp-rev)
 
-[![apidoc](https://npmdoc.github.io/node-npmdoc-gulp-rev/build/screen-capture.buildNpmdoc.browser._2Fhome_2Ftravis_2Fbuild_2Fnpmdoc_2Fnode-npmdoc-gulp_rev_2Ftmp_2Fbuild_2Fapidoc.html.png)](https://npmdoc.github.io/node-npmdoc-gulp-rev/build..beta..travis-ci.org/apidoc.html)
+[![apidoc](https://npmdoc.github.io/node-npmdoc-gulp-rev/build/screenCapture.buildNpmdoc.browser.%2Fhome%2Ftravis%2Fbuild%2Fnpmdoc%2Fnode-npmdoc-gulp-rev%2Ftmp%2Fbuild%2Fapidoc.html.png)](https://npmdoc.github.io/node-npmdoc-gulp-rev/build/apidoc.html)
 
-![package-listing](https://npmdoc.github.io/node-npmdoc-gulp-rev/build/screen-capture.npmPackageListing.svg)
+![npmPackageListing](https://npmdoc.github.io/node-npmdoc-gulp-rev/build/screenCapture.npmPackageListing.svg)
+
+![npmPackageDependencyTree](https://npmdoc.github.io/node-npmdoc-gulp-rev/build/screenCapture.npmPackageDependencyTree.svg)
 
 
 

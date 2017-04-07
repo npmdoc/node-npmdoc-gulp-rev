@@ -1,7 +1,7 @@
 {
     "author": "kai zhu <kaizhu256@gmail.com>",
     "buildNpmdoc": "gulp-rev",
-    "description": "api documentation for [gulp-rev (v7.1.2)](https://github.com/sindresorhus/gulp-rev#readme) [![travis-ci.org build-status](https://api.travis-ci.org/npmdoc/node-npmdoc-gulp-rev.svg)](https://travis-ci.org/npmdoc/node-npmdoc-gulp-rev)",
+    "description": "api documentation for [gulp-rev (v7.1.2)](https://github.com/sindresorhus/gulp-rev#readme) [![npm package](https://img.shields.io/npm/v/npmdoc-gulp-rev.svg?style=flat-square)](https://www.npmjs.org/package/npmdoc-gulp-rev) [![travis-ci.org build-status](https://api.travis-ci.org/npmdoc/node-npmdoc-gulp-rev.svg)](https://travis-ci.org/npmdoc/node-npmdoc-gulp-rev)",
     "devDependencies": {
         "electron-lite": "kaizhu256/node-electron-lite#alpha",
         "gulp-rev": "*",
@@ -36,5 +36,5 @@
         "start": "(set -e; export PORT=${PORT:-8080}; utility2 start test.js)",
         "test": "(set -e; export PORT=$(utility2 shServerPortRandom); utility2 test test.js)"
     },
-    "version": "0.0.2"
+    "version": "0.0.4"
 }
