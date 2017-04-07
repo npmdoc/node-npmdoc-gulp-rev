@@ -1,0 +1,167 @@
+<html><head></head><body><div class="apidocDiv">
+<style>
+/*csslint
+*/
+.apidocDiv {
+    background: #fff;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.apidocDiv a[href] {
+    color: #33f;
+    font-weight: bold;
+    text-decoration: none;
+}
+.apidocDiv a[href]:hover {
+    text-decoration: underline;
+}
+.apidocCodeCommentSpan {
+    background: #bbf;
+    color: #000;
+    display: block;
+}
+.apidocCodeKeywordSpan {
+    color: #d00;
+    font-weight: bold;
+}
+.apidocCodePre {
+    background: #eef;
+    border: 1px solid;
+    color: #777;
+    padding: 5px;
+    white-space: pre-wrap;
+}
+.apidocFooterDiv {
+    margin-top: 20px;
+    text-align: center;
+}
+.apidocModuleLi {
+    margin-top: 10px;
+}
+.apidocSectionDiv {
+    border-top: 1px solid;
+    margin-top: 20px;
+}
+.apidocSignatureSpan {
+    color: #777;
+    font-weight: bold;
+}
+</style>
+<h1>api documentation for
+    <a href="https://github.com/sindresorhus/gulp-rev#readme">gulp-rev (v7.1.2)</a>
+</h1>
+<h4>Static asset revisioning by appending content hash to filenames: unicorn.css =&gt; unicorn-d41d8cd98f.css</h4>
+<div class="apidocSectionDiv"><a href="#apidoc.tableOfContents" id="apidoc.tableOfContents"><h1>table of contents</h1></a><ol>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.gulp-rev">module gulp-rev</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.gulp-rev.manifest">
+            function <span class="apidocSignatureSpan">gulp-rev.</span>manifest
+            <span class="apidocSignatureSpan">(pth, opts)</span>
+            </a>
+
+        </li>
+
+    </ol></li>
+
+</ol></div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.gulp-rev" id="apidoc.module.gulp-rev">module gulp-rev</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.gulp-rev.manifest" id="apidoc.element.gulp-rev.manifest">
+        function <span class="apidocSignatureSpan">gulp-rev.</span>manifest
+        <span class="apidocSignatureSpan">(pth, opts)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">manifest = function (pth, opts) {
+	if (typeof pth === 'string') {
+		pth = {path: pth};
+	}
+
+	opts = objectAssign({
+		path: 'rev-manifest.json',
+		merge: false,
+		// Apply the default JSON transformer.
+		// The user can pass in his on transformer if he wants. The only requirement is that it should
+		// support 'parse' and 'stringify' methods.
+		transformer: JSON
+	}, opts, pth);
+
+	var manifest = {};
+
+	return through.obj(function (file, enc, cb) {
+		// ignore all non-rev'd files
+		if (!file.path || !file.revOrigPath) {
+			cb();
+			return;
+		}
+
+		var revisionedFile = relPath(file.base, file.path);
+		var originalFile = path.join(path.dirname(revisionedFile), path.basename(file.revOrigPath)).replace(/\\/g, '/');
+
+		manifest[originalFile] = revisionedFile;
+
+		cb();
+	}, function (cb) {
+		// no need to write a manifest file if there's nothing to manifest
+		if (Object.keys(manifest).length === 0) {
+			cb();
+			return;
+		}
+
+		getManifestFile(opts, function (err, manifestFile) {
+			if (err) {
+				cb(err);
+				return;
+			}
+
+			if (opts.merge &amp;&amp; !manifestFile.isNull()) {
+				var oldManifest = {};
+
+				try {
+					oldManifest = opts.transformer.parse(manifestFile.contents.toString());
+				} catch (err) {}
+
+				manifest = objectAssign(oldManifest, manifest);
+			}
+
+			manifestFile.contents = new Buffer(opts.transformer.stringify(sortKeys(manifest), null, '  '));
+			this.push(manifestFile);
+			cb();
+		}.bind(this));
+	});
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+```
+
+
+## API
+
+### rev()
+
+### rev.<span class="apidocCodeKeywordSpan">manifest</span>([path], [options])
+
+#### path
+
+Type: `string`
+Default: `"rev-manifest.json"`
+
+Manifest file path.
+...</pre></li>
+    </ul>
+
+
+</div>
+
+<div class="apidocFooterDiv">
+    [ this document was created with
+    <a href="https://github.com/kaizhu256/node-utility2" target="_blank">utility2</a>
+    ]
+</div>
+</div>
+</body></html>
