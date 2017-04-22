@@ -1,9 +1,14 @@
-# api documentation for  [gulp-rev (v7.1.2)](https://github.com/sindresorhus/gulp-rev#readme)  [![npm package](https://img.shields.io/npm/v/npmdoc-gulp-rev.svg?style=flat-square)](https://www.npmjs.org/package/npmdoc-gulp-rev) [![travis-ci.org build-status](https://api.travis-ci.org/npmdoc/node-npmdoc-gulp-rev.svg)](https://travis-ci.org/npmdoc/node-npmdoc-gulp-rev)
+# npmdoc-gulp-rev
+
+#### api documentation for  [gulp-rev (v7.1.2)](https://github.com/sindresorhus/gulp-rev#readme)  [![npm package](https://img.shields.io/npm/v/npmdoc-gulp-rev.svg?style=flat-square)](https://www.npmjs.org/package/npmdoc-gulp-rev) [![travis-ci.org build-status](https://api.travis-ci.org/npmdoc/node-npmdoc-gulp-rev.svg)](https://travis-ci.org/npmdoc/node-npmdoc-gulp-rev)
+
 #### Static asset revisioning by appending content hash to filenames: unicorn.css => unicorn-d41d8cd98f.css
 
-[![NPM](https://nodei.co/npm/gulp-rev.png?downloads=true)](https://www.npmjs.com/package/gulp-rev)
+[![NPM](https://nodei.co/npm/gulp-rev.png?downloads=true&downloadRank=true&stars=true)](https://www.npmjs.com/package/gulp-rev)
 
-[![apidoc](https://npmdoc.github.io/node-npmdoc-gulp-rev/build/screenCapture.buildNpmdoc.browser.%252Fhome%252Ftravis%252Fbuild%252Fnpmdoc%252Fnode-npmdoc-gulp-rev%252Ftmp%252Fbuild%252Fapidoc.html.png)](https://npmdoc.github.io/node-npmdoc-gulp-rev/build/apidoc.html)
+- [https://npmdoc.github.io/node-npmdoc-gulp-rev/build/apidoc.html](https://npmdoc.github.io/node-npmdoc-gulp-rev/build/apidoc.html)
+
+[![apidoc](https://npmdoc.github.io/node-npmdoc-gulp-rev/build/screenCapture.buildCi.browser.%252Ftmp%252Fbuild%252Fapidoc.html.png)](https://npmdoc.github.io/node-npmdoc-gulp-rev/build/apidoc.html)
 
 ![npmPackageListing](https://npmdoc.github.io/node-npmdoc-gulp-rev/build/screenCapture.npmPackageListing.svg)
 
@@ -18,7 +23,6 @@
 {
     "author": {
         "name": "Sindre Sorhus",
-        "email": "sindresorhus@gmail.com",
         "url": "sindresorhus.com"
     },
     "bugs": {
@@ -70,17 +74,14 @@
     "license": "MIT",
     "maintainers": [
         {
-            "name": "sindresorhus",
-            "email": "sindresorhus@gmail.com"
+            "name": "sindresorhus"
         },
         {
-            "name": "bobthecow",
-            "email": "npm@0x7f.us"
+            "name": "bobthecow"
         }
     ],
     "name": "gulp-rev",
     "optionalDependencies": {},
-    "readme": "ERROR: No README data found!",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/sindresorhus/gulp-rev.git"
@@ -94,102 +95,9 @@
             "node",
             "mocha"
         ]
-    }
+    },
+    "bin": {}
 }
-```
-
-
-
-# <a name="apidoc.tableOfContents"></a>[table of contents](#apidoc.tableOfContents)
-
-#### [module gulp-rev](#apidoc.module.gulp-rev)
-1.  [function <span class="apidocSignatureSpan">gulp-rev.</span>manifest (pth, opts)](#apidoc.element.gulp-rev.manifest)
-
-
-
-# <a name="apidoc.module.gulp-rev"></a>[module gulp-rev](#apidoc.module.gulp-rev)
-
-#### <a name="apidoc.element.gulp-rev.manifest"></a>[function <span class="apidocSignatureSpan">gulp-rev.</span>manifest (pth, opts)](#apidoc.element.gulp-rev.manifest)
-- description and source-code
-```javascript
-manifest = function (pth, opts) {
-	if (typeof pth === 'string') {
-		pth = {path: pth};
-	}
-
-	opts = objectAssign({
-		path: 'rev-manifest.json',
-		merge: false,
-		// Apply the default JSON transformer.
-		// The user can pass in his on transformer if he wants. The only requirement is that it should
-		// support 'parse' and 'stringify' methods.
-		transformer: JSON
-	}, opts, pth);
-
-	var manifest = {};
-
-	return through.obj(function (file, enc, cb) {
-		// ignore all non-rev'd files
-		if (!file.path || !file.revOrigPath) {
-			cb();
-			return;
-		}
-
-		var revisionedFile = relPath(file.base, file.path);
-		var originalFile = path.join(path.dirname(revisionedFile), path.basename(file.revOrigPath)).replace(/\\/g, '/');
-
-		manifest[originalFile] = revisionedFile;
-
-		cb();
-	}, function (cb) {
-		// no need to write a manifest file if there's nothing to manifest
-		if (Object.keys(manifest).length === 0) {
-			cb();
-			return;
-		}
-
-		getManifestFile(opts, function (err, manifestFile) {
-			if (err) {
-				cb(err);
-				return;
-			}
-
-			if (opts.merge && !manifestFile.isNull()) {
-				var oldManifest = {};
-
-				try {
-					oldManifest = opts.transformer.parse(manifestFile.contents.toString());
-				} catch (err) {}
-
-				manifest = objectAssign(oldManifest, manifest);
-			}
-
-			manifestFile.contents = new Buffer(opts.transformer.stringify(sortKeys(manifest), null, '  '));
-			this.push(manifestFile);
-			cb();
-		}.bind(this));
-	});
-}
-```
-- example usage
-```shell
-...
-'''
-
-
-## API
-
-### rev()
-
-### rev.manifest([path], [options])
-
-#### path
-
-Type: 'string'
-Default: '"rev-manifest.json"'
-
-Manifest file path.
-...
 ```
 
 
