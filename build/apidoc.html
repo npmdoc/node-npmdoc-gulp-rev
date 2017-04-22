@@ -63,8 +63,48 @@
 
         <li>
 
+            <a class="apidocElementLiA" href="#apidoc.element.gulp-rev.gulp-rev">
+            function <span class="apidocSignatureSpan"></span>gulp-rev
+            <span class="apidocSignatureSpan">()</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.gulp-rev.index">
+            function <span class="apidocSignatureSpan">gulp-rev.</span>index
+            <span class="apidocSignatureSpan">()</span>
+            </a>
+
+        </li>
+
+        <li>
+
             <a class="apidocElementLiA" href="#apidoc.element.gulp-rev.manifest">
             function <span class="apidocSignatureSpan">gulp-rev.</span>manifest
+            <span class="apidocSignatureSpan">(pth, opts)</span>
+            </a>
+
+        </li>
+
+    </ol></li>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.gulp-rev.index">module gulp-rev.index</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.gulp-rev.index.index">
+            function <span class="apidocSignatureSpan">gulp-rev.</span>index
+            <span class="apidocSignatureSpan">()</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.gulp-rev.index.manifest">
+            function <span class="apidocSignatureSpan">gulp-rev.index.</span>manifest
             <span class="apidocSignatureSpan">(pth, opts)</span>
             </a>
 
@@ -79,8 +119,306 @@
 
 
     <h2>
+        <a href="#apidoc.element.gulp-rev.gulp-rev" id="apidoc.element.gulp-rev.gulp-rev">
+        function <span class="apidocSignatureSpan"></span>gulp-rev
+        <span class="apidocSignatureSpan">()</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">gulp-rev = function () {
+	var sourcemaps = [];
+	var pathMap = {};
+
+	return through.obj(function (file, enc, cb) {
+		if (file.isNull()) {
+			cb(null, file);
+			return;
+		}
+
+		if (file.isStream()) {
+			cb(new gutil.PluginError(&#x27;gulp-rev&#x27;, &#x27;Streaming not supported&#x27;));
+			return;
+		}
+
+		// this is a sourcemap, hold until the end
+		if (path.extname(file.path) === &#x27;.map&#x27;) {
+			sourcemaps.push(file);
+			cb();
+			return;
+		}
+
+		var oldPath = file.path;
+		transformFilename(file);
+		pathMap[oldPath] = file.revHash;
+
+		cb(null, file);
+	}, function (cb) {
+		sourcemaps.forEach(function (file) {
+			var reverseFilename;
+
+			// attempt to parse the sourcemap&#x27;s JSON to get the reverse filename
+			try {
+				reverseFilename = JSON.parse(file.contents.toString()).file;
+			} catch (err) {}
+
+			if (!reverseFilename) {
+				reverseFilename = path.relative(path.dirname(file.path), path.basename(file.path, &#x27;.map&#x27;));
+			}
+
+			if (pathMap[reverseFilename]) {
+				// save the old path for later
+				file.revOrigPath = file.path;
+				file.revOrigBase = file.base;
+
+				var hash = pathMap[reverseFilename];
+				file.path = revPath(file.path.replace(/\.map$/, &#x27;&#x27;), hash) + &#x27;.map&#x27;;
+			} else {
+				transformFilename(file);
+			}
+
+			this.push(file);
+		}, this);
+
+		cb();
+	});
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.gulp-rev.index" id="apidoc.element.gulp-rev.index">
+        function <span class="apidocSignatureSpan">gulp-rev.</span>index
+        <span class="apidocSignatureSpan">()</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">index = function () {
+	var sourcemaps = [];
+	var pathMap = {};
+
+	return through.obj(function (file, enc, cb) {
+		if (file.isNull()) {
+			cb(null, file);
+			return;
+		}
+
+		if (file.isStream()) {
+			cb(new gutil.PluginError(&#x27;gulp-rev&#x27;, &#x27;Streaming not supported&#x27;));
+			return;
+		}
+
+		// this is a sourcemap, hold until the end
+		if (path.extname(file.path) === &#x27;.map&#x27;) {
+			sourcemaps.push(file);
+			cb();
+			return;
+		}
+
+		var oldPath = file.path;
+		transformFilename(file);
+		pathMap[oldPath] = file.revHash;
+
+		cb(null, file);
+	}, function (cb) {
+		sourcemaps.forEach(function (file) {
+			var reverseFilename;
+
+			// attempt to parse the sourcemap&#x27;s JSON to get the reverse filename
+			try {
+				reverseFilename = JSON.parse(file.contents.toString()).file;
+			} catch (err) {}
+
+			if (!reverseFilename) {
+				reverseFilename = path.relative(path.dirname(file.path), path.basename(file.path, &#x27;.map&#x27;));
+			}
+
+			if (pathMap[reverseFilename]) {
+				// save the old path for later
+				file.revOrigPath = file.path;
+				file.revOrigBase = file.base;
+
+				var hash = pathMap[reverseFilename];
+				file.path = revPath(file.path.replace(/\.map$/, &#x27;&#x27;), hash) + &#x27;.map&#x27;;
+			} else {
+				transformFilename(file);
+			}
+
+			this.push(file);
+		}, this);
+
+		cb();
+	});
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
         <a href="#apidoc.element.gulp-rev.manifest" id="apidoc.element.gulp-rev.manifest">
         function <span class="apidocSignatureSpan">gulp-rev.</span>manifest
+        <span class="apidocSignatureSpan">(pth, opts)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">manifest = function (pth, opts) {
+	if (typeof pth === &#x27;string&#x27;) {
+		pth = {path: pth};
+	}
+
+	opts = objectAssign({
+		path: &#x27;rev-manifest.json&#x27;,
+		merge: false,
+		// Apply the default JSON transformer.
+		// The user can pass in his on transformer if he wants. The only requirement is that it should
+		// support &#x27;parse&#x27; and &#x27;stringify&#x27; methods.
+		transformer: JSON
+	}, opts, pth);
+
+	var manifest = {};
+
+	return through.obj(function (file, enc, cb) {
+		// ignore all non-rev&#x27;d files
+		if (!file.path || !file.revOrigPath) {
+			cb();
+			return;
+		}
+
+		var revisionedFile = relPath(file.base, file.path);
+		var originalFile = path.join(path.dirname(revisionedFile), path.basename(file.revOrigPath)).replace(/\\/g, &#x27;/&#x27;);
+
+		manifest[originalFile] = revisionedFile;
+
+		cb();
+	}, function (cb) {
+		// no need to write a manifest file if there&#x27;s nothing to manifest
+		if (Object.keys(manifest).length === 0) {
+			cb();
+			return;
+		}
+
+		getManifestFile(opts, function (err, manifestFile) {
+			if (err) {
+				cb(err);
+				return;
+			}
+
+			if (opts.merge &#x26;&#x26; !manifestFile.isNull()) {
+				var oldManifest = {};
+
+				try {
+					oldManifest = opts.transformer.parse(manifestFile.contents.toString());
+				} catch (err) {}
+
+				manifest = objectAssign(oldManifest, manifest);
+			}
+
+			manifestFile.contents = new Buffer(opts.transformer.stringify(sortKeys(manifest), null, &#x27;  &#x27;));
+			this.push(manifestFile);
+			cb();
+		}.bind(this));
+	});
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+```
+
+
+## API
+
+### rev()
+
+### rev.<span class="apidocCodeKeywordSpan">manifest</span>([path], [options])
+
+#### path
+
+Type: `string`
+Default: `&#x22;rev-manifest.json&#x22;`
+
+Manifest file path.
+...</pre></li>
+    </ul>
+
+
+</div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.gulp-rev.index" id="apidoc.module.gulp-rev.index">module gulp-rev.index</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.gulp-rev.index.index" id="apidoc.element.gulp-rev.index.index">
+        function <span class="apidocSignatureSpan">gulp-rev.</span>index
+        <span class="apidocSignatureSpan">()</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">index = function () {
+	var sourcemaps = [];
+	var pathMap = {};
+
+	return through.obj(function (file, enc, cb) {
+		if (file.isNull()) {
+			cb(null, file);
+			return;
+		}
+
+		if (file.isStream()) {
+			cb(new gutil.PluginError(&#x27;gulp-rev&#x27;, &#x27;Streaming not supported&#x27;));
+			return;
+		}
+
+		// this is a sourcemap, hold until the end
+		if (path.extname(file.path) === &#x27;.map&#x27;) {
+			sourcemaps.push(file);
+			cb();
+			return;
+		}
+
+		var oldPath = file.path;
+		transformFilename(file);
+		pathMap[oldPath] = file.revHash;
+
+		cb(null, file);
+	}, function (cb) {
+		sourcemaps.forEach(function (file) {
+			var reverseFilename;
+
+			// attempt to parse the sourcemap&#x27;s JSON to get the reverse filename
+			try {
+				reverseFilename = JSON.parse(file.contents.toString()).file;
+			} catch (err) {}
+
+			if (!reverseFilename) {
+				reverseFilename = path.relative(path.dirname(file.path), path.basename(file.path, &#x27;.map&#x27;));
+			}
+
+			if (pathMap[reverseFilename]) {
+				// save the old path for later
+				file.revOrigPath = file.path;
+				file.revOrigBase = file.base;
+
+				var hash = pathMap[reverseFilename];
+				file.path = revPath(file.path.replace(/\.map$/, &#x27;&#x27;), hash) + &#x27;.map&#x27;;
+			} else {
+				transformFilename(file);
+			}
+
+			this.push(file);
+		}, this);
+
+		cb();
+	});
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.gulp-rev.index.manifest" id="apidoc.element.gulp-rev.index.manifest">
+        function <span class="apidocSignatureSpan">gulp-rev.index.</span>manifest
         <span class="apidocSignatureSpan">(pth, opts)</span>
         </a>
     </h2>

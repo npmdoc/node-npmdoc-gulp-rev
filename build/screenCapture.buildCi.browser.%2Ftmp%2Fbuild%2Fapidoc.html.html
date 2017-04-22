@@ -1,4 +1,4 @@
-<div class="apidocDiv">
+<html><head></head><body><div class="apidocDiv">
 <style>
 /*csslint
 */
@@ -47,17 +47,10 @@
 }
 </style>
 <h1>api documentation for
-    <a
-
-        href="https://github.com/sindresorhus/gulp-rev#readme"
-
-    >gulp-rev (v7.1.2)</a>
+    <a href="https://github.com/sindresorhus/gulp-rev#readme">gulp-rev (v7.1.2)</a>
 </h1>
-<h4>Static asset revisioning by appending content hash to filenames: unicorn.css => unicorn-d41d8cd98f.css</h4>
-<div class="apidocSectionDiv"><a
-    href="#apidoc.tableOfContents"
-    id="apidoc.tableOfContents"
-><h1>table of contents</h1></a><ol>
+<h4>Static asset revisioning by appending content hash to filenames: unicorn.css =&gt; unicorn-d41d8cd98f.css</h4>
+<div class="apidocSectionDiv"><a href="#apidoc.tableOfContents" id="apidoc.tableOfContents"><h1>table of contents</h1></a><ol>
 
     <li class="apidocModuleLi"><a href="#apidoc.module.gulp-rev">module gulp-rev</a><ol>
 
@@ -136,12 +129,12 @@
 		}
 
 		if (file.isStream()) {
-			cb(new gutil.PluginError(&#x27;gulp-rev&#x27;, &#x27;Streaming not supported&#x27;));
+			cb(new gutil.PluginError('gulp-rev', 'Streaming not supported'));
 			return;
 		}
 
 		// this is a sourcemap, hold until the end
-		if (path.extname(file.path) === &#x27;.map&#x27;) {
+		if (path.extname(file.path) === '.map') {
 			sourcemaps.push(file);
 			cb();
 			return;
@@ -156,13 +149,13 @@
 		sourcemaps.forEach(function (file) {
 			var reverseFilename;
 
-			// attempt to parse the sourcemap&#x27;s JSON to get the reverse filename
+			// attempt to parse the sourcemap's JSON to get the reverse filename
 			try {
 				reverseFilename = JSON.parse(file.contents.toString()).file;
 			} catch (err) {}
 
 			if (!reverseFilename) {
-				reverseFilename = path.relative(path.dirname(file.path), path.basename(file.path, &#x27;.map&#x27;));
+				reverseFilename = path.relative(path.dirname(file.path), path.basename(file.path, '.map'));
 			}
 
 			if (pathMap[reverseFilename]) {
@@ -171,7 +164,7 @@
 				file.revOrigBase = file.base;
 
 				var hash = pathMap[reverseFilename];
-				file.path = revPath(file.path.replace(/\.map$/, &#x27;&#x27;), hash) + &#x27;.map&#x27;;
+				file.path = revPath(file.path.replace(/\.map$/, ''), hash) + '.map';
 			} else {
 				transformFilename(file);
 			}
@@ -205,12 +198,12 @@
 		}
 
 		if (file.isStream()) {
-			cb(new gutil.PluginError(&#x27;gulp-rev&#x27;, &#x27;Streaming not supported&#x27;));
+			cb(new gutil.PluginError('gulp-rev', 'Streaming not supported'));
 			return;
 		}
 
 		// this is a sourcemap, hold until the end
-		if (path.extname(file.path) === &#x27;.map&#x27;) {
+		if (path.extname(file.path) === '.map') {
 			sourcemaps.push(file);
 			cb();
 			return;
@@ -225,13 +218,13 @@
 		sourcemaps.forEach(function (file) {
 			var reverseFilename;
 
-			// attempt to parse the sourcemap&#x27;s JSON to get the reverse filename
+			// attempt to parse the sourcemap's JSON to get the reverse filename
 			try {
 				reverseFilename = JSON.parse(file.contents.toString()).file;
 			} catch (err) {}
 
 			if (!reverseFilename) {
-				reverseFilename = path.relative(path.dirname(file.path), path.basename(file.path, &#x27;.map&#x27;));
+				reverseFilename = path.relative(path.dirname(file.path), path.basename(file.path, '.map'));
 			}
 
 			if (pathMap[reverseFilename]) {
@@ -240,7 +233,7 @@
 				file.revOrigBase = file.base;
 
 				var hash = pathMap[reverseFilename];
-				file.path = revPath(file.path.replace(/\.map$/, &#x27;&#x27;), hash) + &#x27;.map&#x27;;
+				file.path = revPath(file.path.replace(/\.map$/, ''), hash) + '.map';
 			} else {
 				transformFilename(file);
 			}
@@ -264,36 +257,36 @@
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">manifest = function (pth, opts) {
-	if (typeof pth === &#x27;string&#x27;) {
+	if (typeof pth === 'string') {
 		pth = {path: pth};
 	}
 
 	opts = objectAssign({
-		path: &#x27;rev-manifest.json&#x27;,
+		path: 'rev-manifest.json',
 		merge: false,
 		// Apply the default JSON transformer.
 		// The user can pass in his on transformer if he wants. The only requirement is that it should
-		// support &#x27;parse&#x27; and &#x27;stringify&#x27; methods.
+		// support 'parse' and 'stringify' methods.
 		transformer: JSON
 	}, opts, pth);
 
 	var manifest = {};
 
 	return through.obj(function (file, enc, cb) {
-		// ignore all non-rev&#x27;d files
+		// ignore all non-rev'd files
 		if (!file.path || !file.revOrigPath) {
 			cb();
 			return;
 		}
 
 		var revisionedFile = relPath(file.base, file.path);
-		var originalFile = path.join(path.dirname(revisionedFile), path.basename(file.revOrigPath)).replace(/\\/g, &#x27;/&#x27;);
+		var originalFile = path.join(path.dirname(revisionedFile), path.basename(file.revOrigPath)).replace(/\\/g, '/');
 
 		manifest[originalFile] = revisionedFile;
 
 		cb();
 	}, function (cb) {
-		// no need to write a manifest file if there&#x27;s nothing to manifest
+		// no need to write a manifest file if there's nothing to manifest
 		if (Object.keys(manifest).length === 0) {
 			cb();
 			return;
@@ -305,7 +298,7 @@
 				return;
 			}
 
-			if (opts.merge &#x26;&#x26; !manifestFile.isNull()) {
+			if (opts.merge &amp;&amp; !manifestFile.isNull()) {
 				var oldManifest = {};
 
 				try {
@@ -315,7 +308,7 @@
 				manifest = objectAssign(oldManifest, manifest);
 			}
 
-			manifestFile.contents = new Buffer(opts.transformer.stringify(sortKeys(manifest), null, &#x27;  &#x27;));
+			manifestFile.contents = new Buffer(opts.transformer.stringify(sortKeys(manifest), null, '  '));
 			this.push(manifestFile);
 			cb();
 		}.bind(this));
@@ -334,7 +327,7 @@
 #### path
 
 Type: `string`
-Default: `&#x22;rev-manifest.json&#x22;`
+Default: `"rev-manifest.json"`
 
 Manifest file path.
 ...</pre></li>
@@ -365,12 +358,12 @@ Manifest file path.
 		}
 
 		if (file.isStream()) {
-			cb(new gutil.PluginError(&#x27;gulp-rev&#x27;, &#x27;Streaming not supported&#x27;));
+			cb(new gutil.PluginError('gulp-rev', 'Streaming not supported'));
 			return;
 		}
 
 		// this is a sourcemap, hold until the end
-		if (path.extname(file.path) === &#x27;.map&#x27;) {
+		if (path.extname(file.path) === '.map') {
 			sourcemaps.push(file);
 			cb();
 			return;
@@ -385,13 +378,13 @@ Manifest file path.
 		sourcemaps.forEach(function (file) {
 			var reverseFilename;
 
-			// attempt to parse the sourcemap&#x27;s JSON to get the reverse filename
+			// attempt to parse the sourcemap's JSON to get the reverse filename
 			try {
 				reverseFilename = JSON.parse(file.contents.toString()).file;
 			} catch (err) {}
 
 			if (!reverseFilename) {
-				reverseFilename = path.relative(path.dirname(file.path), path.basename(file.path, &#x27;.map&#x27;));
+				reverseFilename = path.relative(path.dirname(file.path), path.basename(file.path, '.map'));
 			}
 
 			if (pathMap[reverseFilename]) {
@@ -400,7 +393,7 @@ Manifest file path.
 				file.revOrigBase = file.base;
 
 				var hash = pathMap[reverseFilename];
-				file.path = revPath(file.path.replace(/\.map$/, &#x27;&#x27;), hash) + &#x27;.map&#x27;;
+				file.path = revPath(file.path.replace(/\.map$/, ''), hash) + '.map';
 			} else {
 				transformFilename(file);
 			}
@@ -424,36 +417,36 @@ Manifest file path.
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">manifest = function (pth, opts) {
-	if (typeof pth === &#x27;string&#x27;) {
+	if (typeof pth === 'string') {
 		pth = {path: pth};
 	}
 
 	opts = objectAssign({
-		path: &#x27;rev-manifest.json&#x27;,
+		path: 'rev-manifest.json',
 		merge: false,
 		// Apply the default JSON transformer.
 		// The user can pass in his on transformer if he wants. The only requirement is that it should
-		// support &#x27;parse&#x27; and &#x27;stringify&#x27; methods.
+		// support 'parse' and 'stringify' methods.
 		transformer: JSON
 	}, opts, pth);
 
 	var manifest = {};
 
 	return through.obj(function (file, enc, cb) {
-		// ignore all non-rev&#x27;d files
+		// ignore all non-rev'd files
 		if (!file.path || !file.revOrigPath) {
 			cb();
 			return;
 		}
 
 		var revisionedFile = relPath(file.base, file.path);
-		var originalFile = path.join(path.dirname(revisionedFile), path.basename(file.revOrigPath)).replace(/\\/g, &#x27;/&#x27;);
+		var originalFile = path.join(path.dirname(revisionedFile), path.basename(file.revOrigPath)).replace(/\\/g, '/');
 
 		manifest[originalFile] = revisionedFile;
 
 		cb();
 	}, function (cb) {
-		// no need to write a manifest file if there&#x27;s nothing to manifest
+		// no need to write a manifest file if there's nothing to manifest
 		if (Object.keys(manifest).length === 0) {
 			cb();
 			return;
@@ -465,7 +458,7 @@ Manifest file path.
 				return;
 			}
 
-			if (opts.merge &#x26;&#x26; !manifestFile.isNull()) {
+			if (opts.merge &amp;&amp; !manifestFile.isNull()) {
 				var oldManifest = {};
 
 				try {
@@ -475,7 +468,7 @@ Manifest file path.
 				manifest = objectAssign(oldManifest, manifest);
 			}
 
-			manifestFile.contents = new Buffer(opts.transformer.stringify(sortKeys(manifest), null, &#x27;  &#x27;));
+			manifestFile.contents = new Buffer(opts.transformer.stringify(sortKeys(manifest), null, '  '));
 			this.push(manifestFile);
 			cb();
 		}.bind(this));
@@ -494,7 +487,7 @@ Manifest file path.
 #### path
 
 Type: `string`
-Default: `&#x22;rev-manifest.json&#x22;`
+Default: `"rev-manifest.json"`
 
 Manifest file path.
 ...</pre></li>
@@ -509,3 +502,4 @@ Manifest file path.
     ]
 </div>
 </div>
+</body></html>

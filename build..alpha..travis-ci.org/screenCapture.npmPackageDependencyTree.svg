@@ -57,7 +57,7 @@
 <tspan x="10" y="874">  ├─┬ sort-keys@1.1.2 </tspan>
 <tspan x="10" y="890">  │ └── is-plain-obj@1.1.0 </tspan>
 <tspan x="10" y="906">  ├─┬ through2@2.0.3 </tspan>
-<tspan x="10" y="922">  │ ├─┬ readable-stream@2.2.8 </tspan>
+<tspan x="10" y="922">  │ ├─┬ readable-stream@2.2.9 </tspan>
 <tspan x="10" y="938">  │ │ ├── buffer-shims@1.0.0 </tspan>
 <tspan x="10" y="954">  │ │ ├── core-util-is@1.0.2 </tspan>
 <tspan x="10" y="970">  │ │ ├── inherits@2.0.3 </tspan>
